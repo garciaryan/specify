@@ -36,8 +36,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    fetchAvailableGenreSeeds();
-  }, [user])
+    if (!genreSeeds) fetchAvailableGenreSeeds();
+  }, [])
 
   useEffect(() => {
     const queryString = window.location.search;
