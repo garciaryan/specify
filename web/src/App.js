@@ -1,11 +1,12 @@
 import './App.css';
 import '@fontsource/inter';
 import Homepage from './Home';
-import Box from '@mui/joy/Box'
+import Layout from './Layout';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { extendTheme } from '@mui/joy/styles';
-import Header from './components/Header';
+import Sheet from '@mui/joy/Sheet'
+import { BrowserRouter, Routes, Route } from 'react-router';
 
 const theme = extendTheme({
   colorSchemeSelector: 'media',
@@ -15,12 +16,16 @@ function App() {
   return (
     <CssVarsProvider theme={theme}>
       <CssBaseline />
-      <div className="App">
-        <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
-          <Header />
-          <Homepage />
-        </Box>
-      </div>
+      <Sheet className="App">
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route index element={<Homepage />} />
+              <Route path="/random" element={<></>} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </Sheet>
     </CssVarsProvider>
   );
 }
