@@ -11,10 +11,11 @@ import AccordionGroup from '@mui/joy/AccordionGroup';
 import AccordionSummary from '@mui/joy/AccordionSummary';
 import Typography from "@mui/joy/Typography";
 import { openSpotifyAuthorization, getRefreshToken, reqHeaders } from "../queries";
+import { seeds } from "../helpers/genreSeeds";
 
 export default function Home() {
   const [user, setUser] = useState(null);
-  const [genreSeeds, setGenreSeeds] = useState();
+  const [genreSeeds, setGenreSeeds] = useState(seeds);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedArtists, setSelectedArtists] = useState([]);
   const [selectedTracks, setSelectedTracks] = useState([]);
@@ -24,6 +25,7 @@ export default function Home() {
     return fetch(`${process.env.REACT_APP_SPOTIFY_API}/recommendations/available-genre-seeds`, {headers: reqHeaders})
       .then(res => res.json())
       .then(res => setGenreSeeds(res.genres))
+      .catch(err => setGenreSeeds([seeds]))
   }
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!genreSeeds) fetchAvailableGenreSeeds();
+    // if (!genreSeeds) fetchAvailableGenreSeeds();
   }, [])
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function Home() {
       {user && (
         <>
           <Typography level="h1">Specify</Typography>
-          <h4>For best results, get specific.</h4>
+          <Typography level="h4">For best results, get specific.</Typography>
           <AccordionGroup>
             <Accordion>
               <AccordionSummary sx={{ fontSize: '32px' }}>Genres</AccordionSummary>
@@ -86,7 +88,7 @@ export default function Home() {
       )}
       {!user && (
         <>
-          <h4>Welcome to Specify! Log in with your Spotify account to continue.</h4>
+          <Typography level="h1">Welcome to Specify! Log in with your Spotify account to continue.</Typography>
           <Button onClick={openSpotifyAuthorization}>Log in with Spotify</Button>
         </>
       )}
